@@ -48,13 +48,15 @@ class DeveloperScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        
+      
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
             onPressed: () {
               Navigator.pop(context);
             }),
         centerTitle: true,
-        backgroundColor: Colors.blue[50],
+        backgroundColor: Colors.greenAccent[200],
         title: const Text(
           'ABOUT DEVELOPER',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
@@ -65,7 +67,7 @@ class DeveloperScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
-            color: Colors.blue[100],
+            color: Colors.green[200],
           ),
           height: mediaQuery.height,
           width: mediaQuery.width,
@@ -151,7 +153,7 @@ class DeveloperScreen extends StatelessWidget {
                                 'assets/images/gmail.png',
                                 fit: BoxFit.contain,
                               ),
-                              backgroundColor: Colors.blue[100]),
+                              backgroundColor: Colors.green[200]),
                         )
                       ],
                     ),

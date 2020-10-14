@@ -8,7 +8,7 @@ class ResultCard extends StatelessWidget {
   ResultCard(this.index);
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Result>(context).fetchResult;
+    final data = Provider.of<Result>(context,listen: false).fetchResult;
     TextStyle style() {
       return GoogleFonts.openSans();
     }

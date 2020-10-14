@@ -9,7 +9,7 @@ class ShowResult extends StatelessWidget {
   static const routeName = 'show-result-screen';
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Result>(context).fetchResult;
+    final data = Provider.of<Result>(context, listen: false).fetchResult;
     TextStyle style(double size) {
       return GoogleFonts.openSans(textStyle: TextStyle(fontSize: size));
     }
@@ -98,6 +98,7 @@ class ShowResult extends StatelessWidget {
           elevation: 5,
           onPressed: () {
             Navigator.pop(context);
+            data.clear();
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
     );
