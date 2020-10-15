@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'developer_screen.dart';
 import '../provider/bool.dart';
 import '../provider/result.dart';
-import '../screens/name_screen.dart';
-import '../screens/show_result.dart';
+import 'name_screen.dart';
+import 'show_result.dart';
 
 class Home extends StatefulWidget {
   static const routeName = 'home-screen';
