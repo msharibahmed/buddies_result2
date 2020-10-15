@@ -26,8 +26,14 @@ dependencies:
   url_launcher: ^5.7.2
   provider: ^4.3.2+2
   http: ^0.12.2
+  flutter_launcher_name: "^0.0.1"
+  
+  
   flutter:
     sdk: flutter
+
+flutter_launcher_name:
+  name: "Buddies Result 2.0"
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,6 +43,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -51,6 +59,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+  
+    - assets/images/logo.png
+    - assets/images/splash.gif
     - assets/images/hello.flr
     - assets/images/gmail.png
     - assets/images/linkedin.png

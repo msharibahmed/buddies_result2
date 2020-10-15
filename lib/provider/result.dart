@@ -1,11 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
-// import 'package:flutter/cupertino.dart';
 
 class Result with ChangeNotifier {
   int _hits = 0;
@@ -17,6 +13,11 @@ class Result with ChangeNotifier {
   Map<String, dynamic> _fetchResult = {};
   Map<String, dynamic> get fetchResult {
     return _fetchResult;
+  }
+
+  List _fetchNameResult = [];
+  List get fetchNameResult {
+    return _fetchNameResult;
   }
 
   Future<void> fetchHits() async {
@@ -35,39 +36,52 @@ class Result with ChangeNotifier {
   }
 
   Future<void> result(String fac, BuildContext context) async {
-    final url = "https://buddiesresult2.herokuapp.com/$fac";
+    final url = "https://buddiesresult2.herokuapp.com/facno/$fac";
     final url1 = "https://buddies-result2.firebaseio.com/.json";
+    await clearFetchResult();
+    try {
+      final res = await http.get(url);
+      final resJson = jsonDecode(res.body);
 
-    // print('resJson');
+      final res1 = await http.get(url1);
+      _hits = jsonDecode(res1.body)['hits'];
+
+      _hits += 1;
+
+      // ignore: unused_local_variable
+      final res2 = await http.put(url1, body: jsonEncode({'hits': _hits}));
+
+      _fetchResult = resJson;
+    } catch (error) {
+      print(error);
+      await alertDialog('Check Your Faculty Number!', context);
+    }
+    notifyListeners();
+  }
+
+  Future<void> nameResult(String nam, BuildContext context) async {
+    final url = "https://buddiesresult2.herokuapp.com/name/$nam";
+    final url1 = "https://buddies-result2.firebaseio.com/.json";
 
     try {
       final res = await http.get(url);
       final resJson = jsonDecode(res.body);
-      if (resJson['info'] == null || resJson['sub'] == null || res == null) {
-        print('object');
-        await alertDialog('Check You Entered Faculty Number.', context);
-        return;
-      }
-
-      try {
-        final res1 = await http.get(url1);
-        _hits = jsonDecode(res1.body)['hits'];
-
-        // print(jsonDecode(res1.body));
-        _hits += 1;
-
-        final res2 = await http.put(url1, body: jsonEncode({'hits': _hits}));
-        // print(jsonDecode(res2.body));
-
-      } catch (error) {
-        await alertDialog('Server Error, Try Again', context);
-      }
-
-      _fetchResult = resJson;
       // print(resJson);
+
+      final res1 = await http.get(url1);
+      _hits = jsonDecode(res1.body)['hits'];
+
+      // print(jsonDecode(res1.body));
+      _hits += 1;
+
+      // ignore: unused_local_variable
+      final res2 = await http.put(url1, body: jsonEncode({'hits': _hits}));
+      // print(jsonDecode(res2.body));
+
+      _fetchNameResult = resJson;
     } catch (error) {
       print(error);
-      await alertDialog('Server Error or Check Your Faculty Number!', context);
+      await alertDialog('Server Error or Check Your Entered Name!', context);
     }
     notifyListeners();
   }
@@ -87,5 +101,15 @@ class Result with ChangeNotifier {
                 )
               ],
             ));
+  }
+
+  Future<void> clearFetchResult() async {
+    _fetchResult.clear();
+    notifyListeners();
+  }
+
+  void clearFetchNameResult() {
+    _fetchNameResult.clear();
+    notifyListeners();
   }
 }

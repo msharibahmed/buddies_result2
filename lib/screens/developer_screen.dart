@@ -13,24 +13,21 @@ class DeveloperScreen extends StatelessWidget {
       await showCupertinoDialog(
           context: context,
           builder: (ctx) => CupertinoAlertDialog(
-                title: Text('Error Occured!'),
+                title: const Text('Error Occured!'),
                 // content: Text('Couln\'t Launch The URL'),
                 actions: [
                   FlatButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('OKAY', style: TextStyle(color: Colors.red)),
+                    child:
+                        const Text('OKAY', style: TextStyle(color: Colors.red)),
                   )
                 ],
               ));
     }
   }
 
-  SizedBox sb([double h = 0, double w = 0]) => SizedBox(
-        height: h,
-        width: w,
-      );
   GestureDetector gd(BuildContext context, String url, String imagePath) =>
       GestureDetector(
         onTap: () {
@@ -48,10 +45,11 @@ class DeveloperScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        
-      
         leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios,color: Colors.black,),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -59,7 +57,8 @@ class DeveloperScreen extends StatelessWidget {
         backgroundColor: Colors.greenAccent[200],
         title: const Text(
           'ABOUT DEVELOPER',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
         ),
       ),
       body: Padding(
@@ -117,7 +116,8 @@ class DeveloperScreen extends StatelessWidget {
                                         Navigator.pop(context);
                                       },
                                       child: const Text('Close',
-                                          style: TextStyle(color: Colors.red)),
+                                          style: const TextStyle(
+                                              color: Colors.red)),
                                     ),
                                     FlatButton(
                                       onPressed: () {
@@ -125,7 +125,8 @@ class DeveloperScreen extends StatelessWidget {
                                             'https://www.linkedin.com/in/sharib-ahmed-b3b930174/');
                                       },
                                       child: const Text('Open Linkedin',
-                                          style: TextStyle(color: Colors.blue)),
+                                          style: const TextStyle(
+                                              color: Colors.blue)),
                                     )
                                   ],
                                   content: const Text(
@@ -141,7 +142,7 @@ class DeveloperScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Mail for any queries related to app:',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w500)),
                         GestureDetector(
                           onTap: () {

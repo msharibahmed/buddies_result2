@@ -1,13 +1,16 @@
-import 'package:buddies_result2/provider/result.dart';
-import 'package:buddies_result2/screens/show_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'developer_screen.dart';
+import '../provider/bool.dart';
+import '../provider/result.dart';
+import '../screens/name_screen.dart';
+import '../screens/show_result.dart';
 
 class Home extends StatefulWidget {
+  static const routeName = 'home-screen';
   @override
   _HomeState createState() => _HomeState();
 }
@@ -15,42 +18,127 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-     Provider.of<Result>(context, listen: false).fetchHits();
+    final data = Provider.of<Result>(context, listen: false);
+    data.fetchHits();
+
     super.initState();
   }
 
+  Future<void> facSearch() async {
+    final data = Provider.of<Result>(context, listen: false);
+
+    FocusScope.of(context).unfocus();
+
+    if (textCtrl.text.isEmpty) {
+      setState(() {
+        errorText = 'Enter Faculty Number';
+      });
+    } else if (textCtrl.text.length != 8 && textCtrl.text.isNotEmpty) {
+      setState(() {
+        errorText = 'Enter valid Faculty Number';
+      });
+    } else {
+      setState(() {
+        errorText = '';
+      });
+      setState(() {
+        _boolCheck = false;
+      });
+      await data.result(textCtrl.text.toUpperCase(), context).then((_) {
+        setState(() {
+          _boolCheck = true;
+        });
+      }).then((_) async {
+        if (data.fetchResult.isEmpty) {
+          // print('object');
+          await data.alertDialog('Check You Entered Faculty Number.', context);
+          return;
+        } else {
+          Provider.of<BoolCheck>(context, listen: false).valFunc(_value);
+
+          Navigator.pushNamed(context, ShowResult.routeName);
+          textCtrl.clear();
+        }
+      });
+    }
+  }
+
+  Future<void> nameSearch() async {
+    final data = Provider.of<Result>(context, listen: false);
+
+    FocusScope.of(context).unfocus();
+
+    if (textCtrl.text.isEmpty) {
+      setState(() {
+        nameErrorText = 'Enter Name';
+      });
+    } else if (!textCtrl.text.contains(RegExp(r'[A-Za-z]')) &&
+        textCtrl.text.isNotEmpty) {
+      setState(() {
+        nameErrorText = 'Enter valid Name';
+      });
+    } else {
+      setState(() {
+        nameErrorText = '';
+      });
+      setState(() {
+        _boolCheck = false;
+      });
+      await data.nameResult(textCtrl.text, context).then((_) {
+        setState(() {
+          _boolCheck = true;
+        });
+      }).then((_) {
+        if (data.fetchNameResult.isEmpty) {
+          // print('object');
+          data.alertDialog(
+              "Couln't Find Any Name Matching To The Entered Name.", context);
+          return;
+        } else {
+          Provider.of<BoolCheck>(context, listen: false).valFunc(_value);
+
+          Navigator.pushNamed(context, NameScreen.routeName);
+          textCtrl.clear();
+        }
+      });
+    }
+  }
+
   var _boolCheck = true;
+  var _value = 1;
+
   final textCtrl = TextEditingController();
   String errorText = '';
+  String nameErrorText = '';
   @override
   Widget build(BuildContext context) {
-    // var data = Provider.of<Result>(context).fetchResult['info'];
-    // data = null;
+    const name = ['By Faculty Number', 'By Name'];
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.black,
-          icon: Icon(Icons.info, color: Colors.greenAccent),
+          icon: const Icon(Icons.info, color: Colors.greenAccent),
           elevation: 5,
           onPressed: () {
             Navigator.pushNamed(context, DeveloperScreen.routeName);
           },
-          label: Text('About Developer',
-              style: TextStyle(color: Colors.greenAccent))),
+          label: const Text('About Developer',
+              style: const TextStyle(color: Colors.greenAccent))),
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Buddies Result 2.0',
-            style: TextStyle(color: Colors.greenAccent)),
+        title: const Text('Buddies Result 2.0',
+            style: const TextStyle(
+                color: Colors.greenAccent,
+                fontWeight: FontWeight.w300,
+                letterSpacing: 1)),
         centerTitle: false,
       ),
       resizeToAvoidBottomInset: false,
       body: Align(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50),
-            Text(
+            const SizedBox(height: 50),
+            const Text(
               'TOTAL HITS',
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
             ),
@@ -66,22 +154,22 @@ class _HomeState extends State<Home> {
                             ..strokeWidth = 1.0,
                           fontSize: 20))),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'THANK YOU FOR YOUR OVERWHELMING RESPONSE!',
               style: TextStyle(fontWeight: FontWeight.w400),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
               height: 65,
               child: TextField(
-                maxLength: 8,
+                maxLength: _value == 1 ? 8 : null,
                 decoration: InputDecoration(
-                  errorText: errorText,
-                  hintText: 'Enter Faculty Number',
+                  errorText: _value == 1 ? errorText : nameErrorText,
+                  hintText: _value == 1 ? 'Enter Faculty Number' : 'Enter Name',
                   focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide: BorderSide(
@@ -96,51 +184,35 @@ class _HomeState extends State<Home> {
                 controller: textCtrl,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Consumer<Result>(
                 builder: (context, data, chld) => CupertinoButton(
                       color: Colors.black,
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        if (textCtrl.text.isEmpty) {
-                          setState(() {
-                            errorText = 'Enter Faculty Number';
-                          });
-                        } else if (textCtrl.text.length != 8 &&
-                            textCtrl.text.isNotEmpty) {
-                          setState(() {
-                            errorText = 'Enter valid Faculty Number';
-                          });
-                        } else {
-                          setState(() {
-                            errorText = '';
-                          });
-                          setState(() {
-                            _boolCheck = false;
-                          });
-                          await data
-                              .result(textCtrl.text.toUpperCase(), context)
-                              .then((_) {
-                            setState(() {
-                              _boolCheck = true;
-                            });
-                          }).then((_) {
-                            if (data.fetchResult['info'] == null ||
-                                data.fetchResult['sub'] == null) {
-                              return;
-                            } else {
-                              Navigator.pushNamed(
-                                  context, ShowResult.routeName);
-                            }
-                          });
-                        }
-                      },
+                      onPressed: _value == 1 ? facSearch : nameSearch,
                       child: _boolCheck
-                          ? Text('Search',
-                              style: TextStyle(color: Colors.greenAccent))
+                          ? const Text('Search',
+                              style: const TextStyle(color: Colors.greenAccent))
                           : CircularProgressIndicator(
                               backgroundColor: Colors.greenAccent),
                     )),
+            // Text('Search:',style: TextStyle(fontSize: 15),),
+            const SizedBox(
+              height: 50,
+            ),
+            for (int i = 1; i <= 2; i++)
+              ListTile(
+                title: Text(name[i - 1]),
+                leading: Radio(
+                  value: i,
+                  groupValue: _value,
+                  activeColor: Colors.greenAccent,
+                  onChanged: (int value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  },
+                ),
+              ),
           ],
         ),
       ),

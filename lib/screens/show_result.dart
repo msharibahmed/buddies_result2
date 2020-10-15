@@ -4,24 +4,33 @@ import 'package:provider/provider.dart';
 
 import '../provider/result.dart';
 import '../widgets/result_card.dart';
+import '../provider/bool.dart';
 
 class ShowResult extends StatelessWidget {
   static const routeName = 'show-result-screen';
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Result>(context, listen: false).fetchResult;
+    final d1 = Provider.of<Result>(context, listen: false);
+    final data1 = d1.fetchResult['info'];
+    final boolCheck = Provider.of<BoolCheck>(
+      context,
+    ).val;
+
     TextStyle style(double size) {
       return GoogleFonts.openSans(textStyle: TextStyle(fontSize: size));
     }
 
-    // print(data['sub']);
+    final Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
+    // print(data['info']['name']);
+
     return Scaffold(
+      backgroundColor: Colors.greenAccent,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             leading: Container(),
             elevation: 10,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.greenAccent,
             expandedHeight: 150,
             floating: true,
             pinned: false,
@@ -36,11 +45,16 @@ class ShowResult extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(
+                            height: 5,
+                          ),
                           Text(
-                            data['info']['name'],
+                            boolCheck == 1
+                                ? data1['name']
+                                : data['info']['name'],
                             style: style(20),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Expanded(
@@ -49,11 +63,17 @@ class ShowResult extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'Faculty: ' + data['info']['facno'],
+                                    'Faculty: ' +
+                                        (boolCheck == 1
+                                            ? data1['facno']
+                                            : data['info']['facno']),
                                     style: style(15),
                                   ),
                                   Text(
-                                    'Enrollment: ' + data['info']['eno'],
+                                    'Enrollment: ' +
+                                        (boolCheck == 1
+                                            ? data1['eno']
+                                            : data['info']['eno']),
                                     style: style(15),
                                   ),
                                 ]),
@@ -64,15 +84,22 @@ class ShowResult extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'CPI: ' + data['info']['cpi'],
+                                    'CPI: ' +
+                                        (boolCheck == 1
+                                            ? data1['cpi']
+                                            : data['info']['cpi']),
                                     style: style(15),
                                   ),
                                   Text(
-                                    'SPI: ' + data['info']['spi'],
+                                    'SPI: ' +
+                                        (boolCheck == 1
+                                            ? data1['spi']
+                                            : data['info']['spi']),
                                     style: style(15),
                                   )
                                 ]),
                           ),
+                          const Divider(color: Colors.black, indent: 0),
                         ],
                       ),
                     )),
@@ -82,23 +109,22 @@ class ShowResult extends StatelessWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return ResultCard(index);
+              return ResultCard(index, data);
             },
-            childCount: (data['sub'] as List).length,
+            childCount: (boolCheck == 1 ? data1 : data['sub'] as List).length,
           ))
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-          icon: Icon(Icons.arrow_back, color: Colors.greenAccent),
-          label: Text(
+          icon: const Icon(Icons.arrow_back, color: Colors.greenAccent),
+          label: const Text(
             'Go Back',
-            style: TextStyle(color: Colors.greenAccent),
+            style: const TextStyle(color: Colors.greenAccent),
           ),
           backgroundColor: Colors.black,
           elevation: 5,
           onPressed: () {
             Navigator.pop(context);
-            data.clear();
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
     );
