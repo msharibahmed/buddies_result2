@@ -46,7 +46,7 @@ class ShowResult extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(
-                            height: 5,
+                            height: 7,
                           ),
                           Text(
                             boolCheck == 1
@@ -55,7 +55,7 @@ class ShowResult extends StatelessWidget {
                             style: style(20),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 13,
                           ),
                           Expanded(
                             child: Row(
