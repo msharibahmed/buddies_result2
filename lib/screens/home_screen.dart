@@ -119,16 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: Colors.black,
-            icon: const Icon(Icons.info, color: Colors.greenAccent),
-            elevation: 5,
-            onPressed: () {
-              Navigator.pushNamed(context, DeveloperScreen.routeName);
-            },
-            label: const Text('About Developer',
-                style: const TextStyle(color: Colors.greenAccent))),
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: const Text('Buddies Result 2.0',
@@ -137,6 +127,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w300,
                   letterSpacing: 1)),
           centerTitle: false,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.developer_mode,
+                color: Colors.greenAccent,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, DeveloperScreen.routeName);
+              },
+            )
+          ],
         ),
         body: SingleChildScrollView(
           child: Align(
