@@ -4,24 +4,17 @@ import 'package:provider/provider.dart';
 
 import '../provider/result.dart';
 import '../widgets/result_card.dart';
-import '../provider/bool.dart';
 
 class ShowResult extends StatelessWidget {
   static const routeName = 'show-result-screen';
   @override
   Widget build(BuildContext context) {
-    final d1 = Provider.of<Result>(context, listen: false);
-    final data1 = d1.fetchResult['info'];
-    final boolCheck = Provider.of<BoolCheck>(
-      context,
-    ).val;
+    final data = Provider.of<Result>(context, listen: false).fetchResult;
+    print(data['sub']);
 
     TextStyle style(double size) {
       return GoogleFonts.openSans(textStyle: TextStyle(fontSize: size));
     }
-
-    final Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
-    // print(data['info']['name']);
 
     return Scaffold(
       backgroundColor: Colors.greenAccent,
@@ -49,9 +42,7 @@ class ShowResult extends StatelessWidget {
                             height: 7,
                           ),
                           Text(
-                            boolCheck == 1
-                                ? data1['name']
-                                : data['info']['name'],
+                            data['info']['name'],
                             style: style(20),
                           ),
                           const SizedBox(
@@ -63,17 +54,11 @@ class ShowResult extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'Faculty: ' +
-                                        (boolCheck == 1
-                                            ? data1['facno']
-                                            : data['info']['facno']),
+                                    'Faculty: ' + (data['info']['facno']),
                                     style: style(15),
                                   ),
                                   Text(
-                                    'Enrollment: ' +
-                                        (boolCheck == 1
-                                            ? data1['eno']
-                                            : data['info']['eno']),
+                                    'Enrollment: ' + (data['info']['eno']),
                                     style: style(15),
                                   ),
                                 ]),
@@ -84,17 +69,11 @@ class ShowResult extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'CPI: ' +
-                                        (boolCheck == 1
-                                            ? data1['cpi']
-                                            : data['info']['cpi']),
+                                    'CPI: ' + (data['info']['cpi']),
                                     style: style(15),
                                   ),
                                   Text(
-                                    'SPI: ' +
-                                        (boolCheck == 1
-                                            ? data1['spi']
-                                            : data['info']['spi']),
+                                    'SPI: ' + (data['info']['spi']),
                                     style: style(15),
                                   )
                                 ]),
@@ -109,9 +88,9 @@ class ShowResult extends StatelessWidget {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return ResultCard(index, data);
+              return ResultCard(index, data['sub'] as List<dynamic>);
             },
-            childCount: (boolCheck == 1 ? data1 : data['sub'] as List).length,
+            childCount: data['sub'].length,
           ))
         ],
       ),

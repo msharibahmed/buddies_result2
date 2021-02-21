@@ -15,10 +15,7 @@ class Result with ChangeNotifier {
     return _fetchResult;
   }
 
-  List _fetchNameResult = [];
-  List get fetchNameResult {
-    return _fetchNameResult;
-  }
+  
 
   Future<void> fetchHits() async {
     final url = "https://buddies-result2.firebaseio.com/.json";
@@ -28,20 +25,24 @@ class Result with ChangeNotifier {
       _hits = jsonDecode(res.body)['hits'];
       // print(jsonDecode(res.body));
 
-      print('fetched data');
+      print('fetched search hit count');
     } catch (error) {
       print(error);
     }
     notifyListeners();
   }
 
-  Future<void> result(String fac, BuildContext context) async {
-    final url = "https://buddiesresult2.herokuapp.com/facno/$fac";
+  Future<void> result(String fac, String enrol, BuildContext context) async {
+    final url = "https://new-result-api.herokuapp.com/";
     final url1 = "https://buddies-result2.firebaseio.com/.json";
     await clearFetchResult();
     try {
-      final res = await http.get(url);
+      print(fac);
+      print(enrol);
+      final res = await http.post(url,
+          body: jsonEncode({"faculty": fac, "enrollment": enrol}),headers: {"Content-Type":"application/json"});
       final resJson = jsonDecode(res.body);
+      // print(resJson);
 
       final res1 = await http.get(url1);
       _hits = jsonDecode(res1.body)['hits'];
@@ -54,34 +55,7 @@ class Result with ChangeNotifier {
       _fetchResult = resJson;
     } catch (error) {
       print(error);
-      await alertDialog('Check Your Faculty Number!', context);
-    }
-    notifyListeners();
-  }
-
-  Future<void> nameResult(String nam, BuildContext context) async {
-    final url = "https://buddiesresult2.herokuapp.com/name/$nam";
-    final url1 = "https://buddies-result2.firebaseio.com/.json";
-
-    try {
-      final res = await http.get(url);
-      final resJson = jsonDecode(res.body);
-      // print(resJson);
-
-      final res1 = await http.get(url1);
-      _hits = jsonDecode(res1.body)['hits'];
-
-      // print(jsonDecode(res1.body));
-      _hits += 1;
-
-      // ignore: unused_local_variable
-      final res2 = await http.put(url1, body: jsonEncode({'hits': _hits}));
-      // print(jsonDecode(res2.body));
-
-      _fetchNameResult = resJson;
-    } catch (error) {
-      print(error);
-      await alertDialog('Server Error or Check Your Entered Name!', context);
+      await alertDialog('Check Entered Credentials!', context);
     }
     notifyListeners();
   }
@@ -108,8 +82,4 @@ class Result with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearFetchNameResult() {
-    _fetchNameResult.clear();
-    notifyListeners();
-  }
 }

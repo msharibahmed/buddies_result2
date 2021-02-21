@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'home.dart';
+import '../screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
     var duration = new Duration(seconds: 4);
     return new Timer(duration, () {
-      Navigator.pushReplacementNamed(context, Home.routeName);
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     });
   }
 

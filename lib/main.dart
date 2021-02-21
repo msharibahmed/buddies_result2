@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/show_result.dart';
-import 'screens/splash_screen.dart';
-import 'provider/bool.dart';
+import 'screens/home_screen.dart';
 import 'provider/result.dart';
 import 'screens/developer_screen.dart';
-import 'screens/home.dart';
-import 'screens/name_screen.dart';
 
 void main() async {
   runApp(MyApp());
@@ -19,20 +17,19 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Result>(create: (_) => Result()),
-        ChangeNotifierProvider<BoolCheck>(create: (_) => BoolCheck()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: GoogleFonts.openSansTextTheme(),
           primarySwatch: Colors.blue,
         ),
         routes: {
-          Home.routeName: (context) => Home(),
+          HomeScreen.routeName: (context) => HomeScreen(),
           ShowResult.routeName: (context) => ShowResult(),
           DeveloperScreen.routeName: (context) => DeveloperScreen(),
-          NameScreen.routeName: (context) => NameScreen(),
         },
-        home: SplashScreen(),
+        home: HomeScreen(),
       ),
     );
   }
