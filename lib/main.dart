@@ -1,3 +1,4 @@
+import 'package:buddies_result2/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           ShowResult.routeName: (context) => ShowResult(),
           DeveloperScreen.routeName: (context) => DeveloperScreen(),
         },
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }
