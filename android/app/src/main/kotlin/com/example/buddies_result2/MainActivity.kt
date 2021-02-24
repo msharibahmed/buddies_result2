@@ -1,4 +1,4 @@
-package com.example.buddies_result2
+package com.msharib.buddies_result2
 
 import io.flutter.embedding.android.FlutterActivity
 
