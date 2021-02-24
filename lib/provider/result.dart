@@ -64,14 +64,13 @@ class Result with ChangeNotifier {
     return showCupertinoDialog(
         context: context,
         builder: (ctx) => CupertinoAlertDialog(
-              // title: Text('Error Occured!'),
               content: Text(text),
               actions: [
                 FlatButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OKAY', style: TextStyle(color: Colors.red)),
+                  child:const Text('OKAY', style:const TextStyle(color: Colors.red)),
                 )
               ],
             ));

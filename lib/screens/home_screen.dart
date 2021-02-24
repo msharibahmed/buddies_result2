@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'developer_screen.dart';
 import '../provider/result.dart';
 import '../screens/show_result.dart';
+import '../helper/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home-screen';
@@ -29,27 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //textfield controllers
   var facultyTfCtrl = TextEditingController();
   var enrollmentTfCtrl = TextEditingController();
-  OutlineInputBorder border() {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        borderSide: BorderSide(
-          color: Colors.black,
-        ));
-  }
-
-  InputDecoration decoration(String hintText, String errorText) {
-    return InputDecoration(
-        border: border(),
-        errorText: errorText,
-        hintText: hintText,
-        enabledBorder: border(),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: BorderSide(
-              color: Colors.black,
-            )),
-        errorBorder: border());
-  }
 
 //textfield errortexts
   var _facultyErrorText = '';
@@ -129,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: false,
           actions: [
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.developer_mode,
                 color: Colors.greenAccent,
               ),
@@ -161,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ..strokeWidth = 1.0,
                               fontSize: 20))),
                 ),
-                const SizedBox(height: 10),
+                Constants().sz(h: 10),
                 const Text(
                   'THANK YOU FOR YOUR OVERWHELMING RESPONSE!',
                   style: TextStyle(fontWeight: FontWeight.w400),
@@ -175,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: facultyTfCtrl,
                       // maxLength: 8,
                       maxLengthEnforced: true,
-                      decoration: decoration(
+                      decoration: Constants().decoration(
                           'Enter Faculty Number', _facultyErrorText)),
                 ),
                 const SizedBox(
@@ -186,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TextField(
                       controller: enrollmentTfCtrl,
                       // maxLength: 6,
-                      decoration: decoration(
+                      decoration: Constants().decoration(
                           'Enter Enrollment Number', _enrollmentErrorText)),
                 ),
                 const SizedBox(height: 20),

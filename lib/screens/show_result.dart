@@ -10,7 +10,7 @@ class ShowResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<Result>(context, listen: false).fetchResult;
-    print(data['sub']);
+    // print(data['sub']);
 
     TextStyle style(double size) {
       return GoogleFonts.openSans(textStyle: TextStyle(fontSize: size));

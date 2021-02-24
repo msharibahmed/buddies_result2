@@ -1,3 +1,4 @@
+import '../helper/constants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -121,8 +122,8 @@ class DeveloperScreen extends StatelessWidget {
                                     ),
                                     FlatButton(
                                       onPressed: () {
-                                        _launchURL(context,
-                                            'https://www.linkedin.com/in/sharib-ahmed-b3b930174/');
+                                        _launchURL(
+                                            context, Constants().linkedinUrl);
                                       },
                                       child: const Text('Open Linkedin',
                                           style: const TextStyle(
@@ -146,8 +147,7 @@ class DeveloperScreen extends StatelessWidget {
                                 fontSize: 15, fontWeight: FontWeight.w500)),
                         GestureDetector(
                           onTap: () {
-                            _launchURL(context,
-                                'mailto:msharibahmed@gmail.com?subject=Regarding%20a%20query%20in%20zfr%20inventory%20app.&body=Please%20write%20the%20query.');
+                            _launchURL(context, Constants().mailUrl);
                           },
                           child: CircleAvatar(
                               child: Image.asset(
@@ -167,11 +167,9 @@ class DeveloperScreen extends StatelessWidget {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      gd(
-                          context,
-                          'https://www.linkedin.com/in/sharib-ahmed-b3b930174/',
+                      gd(context, Constants().linkedinUrl,
                           'assets/images/linkedin.png'),
-                      gd(context, 'https://www.instagram.com/i._.m._.sharib/',
+                      gd(context, Constants().instagramUrl,
                           'assets/images/instagram.png'),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100),
@@ -185,9 +183,9 @@ class DeveloperScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      gd(context, 'https://www.facebook.com/MSharib786',
+                      gd(context, Constants().facebookUrl,
                           'assets/images/facebook.png'),
-                      gd(context, 'https://github.com/msharibahmed',
+                      gd(context, Constants().githubUrl,
                           'assets/images/github.png')
                     ]),
               ),
