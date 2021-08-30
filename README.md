@@ -1,4 +1,4 @@
-# buddies_result2
+# Buddies Result 2.0
 
 Unofficial Engineering Result App Semester wise for my college.
 
