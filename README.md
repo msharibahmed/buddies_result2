@@ -1,8 +1,9 @@
 # buddies_result2
 
-A new Flutter project.
+Unofficial Engineering Result App Semester wise for my college.
 
-## Getting Started
+## TechStack Used
+Flutter, Dart, MongoDb, Node.js, Express.js, web Automation, Rest API.
 
 This project is a starting point for a Flutter application.
 
