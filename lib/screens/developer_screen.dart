@@ -16,7 +16,7 @@ class DeveloperScreen extends StatelessWidget {
                 title: const Text('Error Occured!'),
                 // content: Text('Couln\'t Launch The URL'),
                 actions: [
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -111,7 +111,7 @@ class DeveloperScreen extends StatelessWidget {
                             context: context,
                             builder: (ctx) => CupertinoAlertDialog(
                                   actions: [
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -119,7 +119,7 @@ class DeveloperScreen extends StatelessWidget {
                                           style: const TextStyle(
                                               color: Colors.red)),
                                     ),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         _launchURL(context,
                                             'https://www.linkedin.com/in/sharib-ahmed-b3b930174/');

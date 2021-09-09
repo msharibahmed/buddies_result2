@@ -93,7 +93,7 @@ class Result with ChangeNotifier {
               // title: Text('Error Occured!'),
               content: Text(text),
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
